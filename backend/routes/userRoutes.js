@@ -1,23 +1,21 @@
 import express from "express";
-import {
-  getProductById,
-  getProducts,
-} from "../controllers/productController.js";
+import { authUser, getUserProfile } from "../controllers/userController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 /*-------------------------------------------------------------------
-@desc Fetch all products
-@route GET [/api/products]
+@desc Auth user & get token
+@route POST [/api/users/login]
 @access universal
 -------------------------------------------------------------------*/
-router.route("/").get(getProducts);
+router.post("/login", authUser);
 
 /*-------------------------------------------------------------------
-@desc Fetch product matching ID
-@route GET [/api/products/:id]
-@access universal
+@desc Get user profile
+@route POST [/api/users/profile]
+@access private
 -------------------------------------------------------------------*/
-router.route("/:id").get(getProductById);
+router.route("/profile").get(protect, getUserProfile);
 
 export default router;
