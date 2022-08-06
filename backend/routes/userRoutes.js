@@ -1,5 +1,9 @@
 import express from "express";
-import { authUser, getUserProfile } from "../controllers/userController.js";
+import {
+  authUser,
+  getUserProfile,
+  createUser,
+} from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -10,6 +14,13 @@ const router = express.Router();
 @access universal
 -------------------------------------------------------------------*/
 router.post("/login", authUser);
+
+/*-------------------------------------------------------------------
+@desc Register a new User
+@route POST [/api/users]
+@access universal
+-------------------------------------------------------------------*/
+router.post("/", createUser);
 
 /*-------------------------------------------------------------------
 @desc Get user profile
