@@ -15,3 +15,15 @@ export const userLoginReducer = (state = {}, action) => {
   }
 };
 
+export const userRegisterReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UserConstants.Register.REQUEST:
+      return { loading: true };
+    case UserConstants.Register.SUCCESS:
+      return { loading: false, userInfo: action.payload };
+    case UserConstants.Register.FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
