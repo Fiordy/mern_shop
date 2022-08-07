@@ -54,6 +54,36 @@ const createUser = asyncHandler(async (req, res) => {
 });
 
 /*-----------------------------------------------------------------*/
+const updateUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.status(400);
+    throw new Error("User doesn't exist");
+  }
+
+  user.name = name || user.name;
+  user.email = email || user.email;
+  user.password = password || user.password;
+
+  const updatedUser = await user.save();
+
+  if (updatedUser) {
+    return res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+/*-----------------------------------------------------------------*/
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
@@ -70,4 +100,4 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 /*-----------------------------------------------------------------*/
-export { authUser, getUserProfile, createUser };
+export { authUser, getUserProfile, createUser, updateUser };

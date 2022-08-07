@@ -57,6 +57,73 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 };
 
+export const getUserDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: UserConstants.Details.REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/users/${id}`, config);
+
+    dispatch({
+      type: UserConstants.Details.SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: UserConstants.Details.FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const updateUser = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: UserConstants.Update.REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put("/api/users", user, config);
+
+    dispatch({
+      type: UserConstants.Update.SUCCESS,
+      success: true,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: UserConstants.Update.FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const logout = () => (dispatch) => {
   console.log(UserConstants.Login.LOGOUT);
   try {
@@ -64,4 +131,5 @@ export const logout = () => (dispatch) => {
   } catch (error) {
     //
   }
+  dispatch({ type: UserConstants.Login.LOGOUT });
 };

@@ -3,6 +3,7 @@ import {
   authUser,
   getUserProfile,
   createUser,
+  updateUser,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -13,14 +14,21 @@ const router = express.Router();
 @route POST [/api/users/login]
 @access universal
 -------------------------------------------------------------------*/
-router.post("/login", authUser);
+router.route("/login").post(authUser);
 
 /*-------------------------------------------------------------------
 @desc Register a new User
 @route POST [/api/users]
 @access universal
 -------------------------------------------------------------------*/
-router.post("/", createUser);
+router.route("/").post(createUser);
+
+/*-------------------------------------------------------------------
+@desc Update User
+@route PUT [/api/users]
+@access universal
+-------------------------------------------------------------------*/
+router.route("/").put(protect, updateUser);
 
 /*-------------------------------------------------------------------
 @desc Get user profile
