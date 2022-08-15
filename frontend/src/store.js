@@ -27,14 +27,22 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
-/*
-const cartItemsFromStorage = localStorage.getItem('cartItems') && localStorage.getItem('cartItems').length > 0
-  ? JSON.parse(localStorage.getItem('cartItems'))
-  : []
-  */
+const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
+  ? localStorage.getItem("shippingAddress")
+  : {};
+
+const cartItemsFromStorage =
+  localStorage.getItem("cartItems") &&
+  localStorage.getItem("cartItems").length > 0
+    ? JSON.parse(localStorage.getItem("cartItems"))
+    : [];
 
 const initialState = {
-  cart: { cartItems: [] }, // was cartItemsFromStorage
+  cart: {
+    cartItems: cartItemsFromStorage,
+    shippingAddress: shippingAddressFromStorage,
+  },
+
   userLogin: { userInfo: userInfoFromStorage },
 };
 
