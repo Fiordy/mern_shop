@@ -37,6 +37,11 @@ export const cartReducer = (
         ...state,
         shippingAddress: action.payload,
       };
+    case CartConstants.Payment.Method.SAVE:
+      return {
+        ...state,
+        paymentMethod: action.payload,
+      };
     default:
       return state;
   }

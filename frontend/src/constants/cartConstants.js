@@ -12,4 +12,9 @@ export const CartConstants = {
       SAVE: "CART_SAVE_SHIPPING_ADDRESS",
     },
   },
+  Payment: {
+    Method: {
+      SAVE: "CART_SAVE_PAYMENT_METHOD",
+    },
+  },
 };
